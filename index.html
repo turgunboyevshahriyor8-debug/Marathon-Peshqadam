@@ -322,7 +322,23 @@ function renderHome(){
     const d = s.daily && s.daily[today];
     const poms = d ? countTrue(d.poms) : 0;
     const pages = d ? countTrue(d.pages) : 0;
-    return { uid, name:s.name, poms, pages, frozen:s.frozen };
+    return {<div class="main-card" style="display: flex; justify-content: space-between; align-items: center; gap: 20px;">
+    
+    <div class="card-info" style="flex: 1;">
+      <div class="badge" style="color: #e6a23c; font-size: 12px; font-weight: bold; margin-bottom: 8px;">HOZIRGI MARAFON KITOBI</div>
+      <h1 class="book-title" style="color: #fff; margin: 0 0 4px 0; font-size: 28px;">${book.name}</h1>
+      <p class="book-author" style="color: #8c92a4; margin: 0 0 16px 0;">${book.author}</p>
+      
+      </div>
+
+    <div class="card-image">
+      <img src="Ruhiy Tarbiya 1-qism.jpg" 
+           alt="Kitob rasmi" 
+           style="width: 130px; height: 180px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+    </div>
+
+  </div>
+`; };
   }).filter(x=>x.poms>0 || x.pages>0)
     .sort((a,b)=> b.poms-a.poms || b.pages-a.pages);
 
