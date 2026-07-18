@@ -347,6 +347,81 @@ function renderHome(){
   <div class="banner" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; position: relative; z-index: 1;">
     <div style="flex: 1; min-width: 260px;">
       <div class="banner-label">Hozirgi marafon kitobi</div>
+      <h1 class="banner-title" style="font-family:'Fraunces',serif; font-size: clamp(24px, 4vw, 38px); font-weight: 700; margin: 10px 0 6px; line-height: 1.1;">${escapeHtml(book.title || 'Kitob nomi kiritilmagan')}</h1>
+      <p class="banner-author" style="color: var(--muted); font-size: 15px; margin: 0;">${escapeHtml(book.author || 'Muallif kiritilmagan')}</p>
+    </div>
+
+    <div style="flex-shrink: 0; z-index: 2;">
+      <img src="${escapeHtml(book.image || 'Ruhiy Tarbiya 1-qism.jpg')}" alt="Kitob rasmi" style="max-width: 130px; height: auto; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.6); display: block;">
+    </div>
+  </div>
+
+  <div class="lb-grid">
+    <div class="lb-card">
+      <div class="lb-head">
+        <div class="lb-title">Bugungi reyting</div>
+        <div class="banner-stamp">${today}</div>
+      </div>
+      <div class="lb-sub">Har kuni tunda 00:00 da nolga tenglashadi</div>
+      <ul class="lb-list">
+        ${daily.length===0 ? '<div class="lb-empty">Bugun hali hech kim sahifa yoki pomodoro kiritmadi.</div>' : 
+          daily.map((x,i)=>`
+            <li class="lb-row" style="${x.frozen?'opacity:0.5;':''}">
+              ${rankIcon(i)}
+              ${nameOf(x.uid, x.name)}
+              <span class="lb-score">${x.pages} bet / ${x.poms} 🍅</span>
+            </li>
+          `).join('')}
+      </ul>
+    </div>
+
+    <div class="lb-card">
+      <div class="lb-head"><div class="lb-title">Umumiy kitob reytingi</div></div>
+      <div class="lb-sub">Marafon boshlangandan beri yopilgan kunlar</div>
+      <ul class="lb-list">
+        ${bookLb.length===0 ? '<div class="lb-empty">Hali hech kim kunlik normani bajarmadi.</div>' :
+          bookLb.map((x,i)=>`
+            <li class="lb-row" style="${x.frozen?'opacity:0.5;':''}">
+              ${rankIcon(i)}
+              ${nameOf(x.uid, x.name)}
+              <span class="lb-score">${x.val} kun</span>
+            </li>
+          `).join('')}
+      </ul>
+    </div>
+
+    <div class="lb-card">
+      <div class="lb-head"><div class="lb-title">Umumiy Pomodoro reytingi</div></div>
+      <div class="lb-sub">Marafon boshlangandan beri jami seanslar</div>
+      <ul class="lb-list">
+        ${pomLb.length===0 ? '<div class="lb-empty">Hali pomodoro bajarilmadi.</div>' :
+          pomLb.map((x,i)=>`
+            <li class="lb-row" style="${x.frozen?'opacity:0.5;':''}">
+              ${rankIcon(i)}
+              ${nameOf(x.uid, x.name)}
+              <span class="lb-score">${x.val} 🍅</span>
+            </li>
+          `).join('')}
+      </ul>
+    </div>
+  </div>
+  `;
+
+  function rankIcon(i){
+    if(i===0) return '<div class="lb-rank r1">1</div>';
+    if(i===1) return '<div class="lb-rank r2">2</div>';
+    if(i===2) return '<div class="lb-rank r3">3</div>';
+    return `<div class="lb-rank">${i+1}</div>`;
+  }
+  function nameOf(uid,name){
+    const isMe = state.me && state.me.userId===uid;
+    return `<span class="lb-name ${isMe?'me':''}">${escapeHtml(name)}${isMe?' (siz)':''}</span>`;
+  }
+
+  return `
+  <div class="banner" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; position: relative; z-index: 1;">
+    <div style="flex: 1; min-width: 260px;">
+      <div class="banner-label">Hozirgi marafon kitobi</div>
       <h1 class="banner-title" style="font-family:'Fraunces',serif; font-size: clamp(24px, 4vw, 38px); font-weight: 700; margin: 10px 0 6px; line-height: 1.1;">Ilmga bag‘ishlangan umr</h1>
       <p class="banner-author" style="color: var(--muted); font-size: 15px; margin: 0;">Shayx Muhammad Sodiq Muhammad Yusuf</p>
     </div>
