@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Oʻqish Marafoni</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --ink:#101a24;
+  --surface:#17232f;
+  --surface-2:#1f2e3c;
+  --line:#2b3d4d;
+  --gold:#c9a24b;
+  --gold-soft:#e4c876;
+  --coral:#c2694b;
+  --coral-soft:#e08a68;
+  --cream:#efe7d8;
+  --muted:#8ba0ae;
+  --green:#6fa88a;
+  --red:#c25b5b;
+  --radius:14px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--ink);color:var(--cream);font-family:'Inter',sans-serif;}
+body{min-height:100vh;}
+#app{max-width:1080px;margin:0 auto;padding:28px 20px 80px;}
+
+.eyebrow{
+  font-family:'Fraunces',serif;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-size:11.5px;
+  color:var(--gold);
+  font-weight:600;
+}
+
+/* ---------- NAV ---------- */
+nav{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px;flex-wrap:wrap;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-mark{
+  width:38px;height:38px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, var(--gold-soft), var(--gold) 60%, #8a6d28 100%);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  box-shadow:0 2px 10px rgba(201,162,75,.35);
+}
+.brand-text{font-family:'Fraunces',serif;font-weight:700;font-size:19px;letter-spacing:.01em;}
+.tabs{display:flex;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;}
+.tab-btn{
+  border:none;background:transparent;color:var(--muted);padding:8px 16px;border-radius:999px;
+  font-family:'Inter',sans-serif;font-weight:600;font-size:13.5px;cursor:pointer;transition:.2s;
+}
+.tab-btn.active{background:var(--gold);color:#1a1206;}
+.tab-btn:hover:not(.active){color:var(--cream);}
+
+/* ---------- HERO / BANNER ---------- */
+.banner{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg, var(--surface-2) 0%, var(--surface) 70%);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:38px 34px;
+  margin-bottom:34px;
+}
+.banner::after{
+  content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle, rgba(201,162,75,.18), transparent 70%);
+}
+.banner-label{font-family:'Fraunces',serif;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;font-size:12px;font-weight:600;}
+.banner-title{font-family:'Fraunces',serif;font-size:clamp(28px,4vw,44px);font-weight:700;margin:10px 0 6px;line-height:1.08;}
+.banner-author{color:var(--muted);font-size:16px;margin-bottom:18px;}
+.banner-stamp{
+  display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--gold);border-radius:999px;
+  padding:7px 16px;font-size:12.5px;color:var(--gold-soft);font-weight:600;letter-spacing:.03em;
+}
+
+/* ---------- LEADERBOARD GRID ---------- */
+.lb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:820px){.lb-grid{grid-template-columns:1fr;}}
+.lb-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 20px 8px;display:flex;flex-direction:column;min-height:280px;
+}
+.lb-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px;}
+.lb-title{font-family:'Fraunces',serif;font-size:16.5px;font-weight:600;}
+.lb-sub{font-size:11.5px;color:var(--muted);margin-bottom:14px;}
+.lb-list{list-style:none;margin:0;padding:0;flex:1;}
+.lb-row{
+  display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--line);
+  font-size:14px;
+}
+.lb-row:last-child{border-bottom:none;}
+.lb-rank{
+  width:22px;height:22px;border-radius:50%;background:var(--surface-2);color:var(--muted);
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;
+}
+.lb-rank.r1{background:var(--gold);color:#1a1206;}
+.lb-rank.r2{background:#9fb0bb;color:#101a24;}
+.lb-rank.r3{background:#a8703f;color:#1a1206;}
+.lb-name{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.lb-name.me{color:var(--gold-soft);}
+.lb-score{font-weight:700;color:var(--cream);font-variant-numeric:tabular-nums;}
+.lb-empty{color:var(--muted);font-size:13px;padding:16px 4px;}
+
+/* ---------- CABINET ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-bottom:22px;}
+.card-title{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:0 0 4px;}
+.card-desc{color:var(--muted);font-size:13.5px;margin-bottom:18px;}
+.name-badge{color:var(--gold-soft);font-weight:700;}
+
+.grid10{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;}
+.grid8{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;}
+@media(max-width:600px){.grid10{grid-template-columns:repeat(5,1fr);}.grid8{grid-template-columns:repeat(5,1fr);}}
+
+.stamp{
+  aspect-ratio:1;border-radius:50%;border:2px solid var(--line);background:var(--ink);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  font-weight:700;font-size:13px;color:var(--muted);transition:transform .15s, background .2s, border-color .2s;
+  user-select:none;
+}
+.stamp:hover{border-color:var(--gold);color:var(--cream);}
+.stamp.page-on{background:radial-gradient(circle at 35% 30%, #4f83bd, #2a5a8c 65%);border-color:#3a6ea3;color:#fff;transform:rotate(-4deg);}
+.stamp.pom-on{background:radial-gradient(circle at 35% 30%, var(--coral-soft), var(--coral) 65%);border-color:#a85a3f;color:#fff;transform:rotate(3deg);}
+.stamp.locked{opacity:.4;cursor:not-allowed;}
+
+.progress-bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin-top:14px;}
+.progress-fill{height:100%;border-radius:99px;transition:width .3s;}
+.progress-fill.pages{background:linear-gradient(90deg,#3a6ea3,#5f9fd8);}
+.progress-fill.poms{background:linear-gradient(90deg,#a85a3f,var(--coral-soft));}
+
+.done-flag{
+  margin-top:16px;padding:12px 16px;border-radius:10px;background:rgba(111,168,138,.13);
+  border:1px solid rgba(111,168,138,.4);color:var(--green);font-weight:600;font-size:13.5px;
+  display:flex;align-items:center;gap:8px;
+}
+
+.frozen-flag{
+  margin-top:16px;padding:12px 16px;border-radius:10px;background:rgba(194,91,91,.13);
+  border:1px solid rgba(194,91,91,.4);color:var(--red);font-weight:600;font-size:13.5px;
+}
+
+/* ---------- FORMS / BUTTONS ---------- */
+input[type=text], input[type=password]{
+  width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--line);
+  background:var(--ink);color:var(--cream);font-family:'Inter',sans-serif;font-size:14px;outline:none;
+}
+input[type=text]:focus, input[type=password]:focus{border-color:var(--gold);}
+.btn{
+  border:none;border-radius:10px;padding:11px 20px;font-weight:700;font-size:14px;cursor:pointer;
+  font-family:'Inter',sans-serif;transition:.15s;
+}
+.btn-gold{background:var(--gold);color:#1a1206;}
+.btn-gold:hover{background:var(--gold-soft);}
+.btn-ghost{background:transparent;border:1px solid var(--line);color:var(--cream);}
+.btn-ghost:hover{border-color:var(--gold);}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-danger:hover{background:#d97070;}
+.btn-sm{padding:7px 12px;font-size:12.5px;border-radius:8px;}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+
+.overlay{
+  position:fixed;inset:0;background:rgba(8,12,16,.72);backdrop-filter:blur(3px);
+  display:flex;align-items:center;justify-content:center;z-index:50;padding:20px;
+}
+.modal{
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px;
+  max-width:400px;width:100%;
+}
+.modal h3{font-family:'Fraunces',serif;margin:0 0 6px;font-size:20px;}
+.modal p{color:var(--muted);font-size:13.5px;margin:0 0 18px;}
+
+.admin-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+.admin-table th{text-align:left;color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;padding:8px 10px;border-bottom:1px solid var(--line);}
+.admin-table td{padding:10px;border-bottom:1px solid var(--line);}
+.admin-table tr:last-child td{border-bottom:none;}
+.tag{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700;}
+.tag.frozen{background:rgba(194,91,91,.18);color:var(--red);}
+.tag.active{background:rgba(111,168,138,.18);color:var(--green);}
+
+.foot-link{color:var(--muted);font-size:12px;text-decoration:none;border-bottom:1px dotted var(--muted);}
+.foot-link:hover{color:var(--gold);}
+.loading{color:var(--muted);font-size:13px;padding:20px 0;text-align:center;}
+::-webkit-scrollbar{width:8px;}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px;}
+</style>
+</head>
+<body>
+<div id="app"><div class="loading">Yuklanmoqda…</div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore, doc, getDoc, setDoc, collection, onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAApNGEOqj_N123aOBxx1832ZxrYzE3kbI",
+  authDomain: "pomidor-10db5.firebaseapp.com",
+  projectId: "pomidor-10db5",
+  storageBucket: "pomidor-10db5.firebasestorage.app",
+  messagingSenderId: "534402150496",
+  appId: "1:534402150496:web:262ae7a935da654aa79305",
+  measurementId: "G-DS0G65DWQG"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
+
+const todayStr = () => {
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+};
+
+let state = {
+  tab: 'home',
+  me: null,           // {userId, name}
+  bookConfig: null,
+  stats: {},          // userId -> stats object (live-synced from Firestore)
+  loading: true,
+  adminUnlocked: false,
+  err: null,
+};
+
+const DEFAULT_BOOK = { title: 'Evrilish', author: 'Franz Kafka' };
+const DEFAULT_ADMIN_PW = 'marafon2026';
+
+function emptyDaily(){ return { pages: Array(10).fill(false), poms: Array(40).fill(false), dayCompleted:false }; }
+function emptyStats(name){
+  return { name, totalDaysCompleted:0, totalPomodoros:0, frozen:false, daily:{} };
+}
+
+// ---------------- LOCAL IDENTITY (per browser/device) ----------------
+function loadMe(){
+  try{
+    const raw = localStorage.getItem('marafon_me');
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return null;
+}
+function saveMe(me){
+  try{ localStorage.setItem('marafon_me', JSON.stringify(me)); }catch(e){}
+}
+
+// ---------------- FIRESTORE HELPERS ----------------
+async function ensureBookConfig(){
+  const ref = doc(db, 'config', 'book');
+  const snap = await getDoc(ref);
+  if(!snap.exists()){
+    await setDoc(ref, DEFAULT_BOOK);
+    return {...DEFAULT_BOOK};
+  }
+  return snap.data();
+}
+async function ensureAdminPassword(){
+  const ref = doc(db, 'config', 'admin');
+  const snap = await getDoc(ref);
+  if(!snap.exists()){
+    await setDoc(ref, { password: DEFAULT_ADMIN_PW });
+    return DEFAULT_ADMIN_PW;
+  }
+  return snap.data().password || DEFAULT_ADMIN_PW;
+}
+async function ensureMyStatsDoc(){
+  if(!state.me) return;
+  const ref = doc(db, 'stats', state.me.userId);
+  const snap = await getDoc(ref);
+  if(!snap.exists()){
+    await setDoc(ref, emptyStats(state.me.name));
+  }
+}
+async function saveStats(userId, statsObj){
+  try{
+    await setDoc(doc(db, 'stats', userId), statsObj);
+  }catch(e){
+    console.error('saveStats failed', e);
+  }
+}
+
+function countTrue(arr){ return arr.filter(Boolean).length; }
+
+// ---------------- RENDER ----------------
+function render(){
+  const el = document.getElementById('app');
+  if(state.loading){ el.innerHTML = '<div class="loading">Yuklanmoqda…</div>'; return; }
+
+  el.innerHTML = `
+    ${renderNav()}
+    ${state.tab==='home' ? renderHome() : ''}
+    ${state.tab==='cabinet' ? renderCabinet() : ''}
+    ${state.tab==='admin' ? renderAdmin() : ''}
+    <div style="text-align:center;margin-top:36px;">
+      <a href="#" class="foot-link" id="admin-link">Admin panel</a>
+    </div>
+  `;
+  attachHandlers();
+  if(!state.me && state.tab==='cabinet'){
+    showNamePrompt();
+  }
+}
+
+function renderNav(){
+  const tabs = [['home','Bosh sahifa'],['cabinet','Shaxsiy kabinet']];
+  return `
+  <nav>
+    <div class="brand">
+      <div class="brand-mark">📖</div>
+      <div class="brand-text">Oʻqish Marafoni</div>
+    </div>
+    <div class="tabs">
+      ${tabs.map(([k,l])=>`<button class="tab-btn ${state.tab===k?'active':''}" data-tab="${k}">${l}</button>`).join('')}
+    </div>
+  </nav>`;
+}
+
+function renderHome(){
+  const book = state.bookConfig || DEFAULT_BOOK;
+  const today = todayStr();
+  const all = Object.entries(state.stats);
+
+  const daily = all.map(([uid,s])=>{
+    const d = s.daily && s.daily[today];
+    const poms = d ? countTrue(d.poms) : 0;
+    const pages = d ? countTrue(d.pages) : 0;
+    return { uid, name:s.name, poms, pages, frozen:s.frozen };
+  }).filter(x=>x.poms>0 || x.pages>0)
+    .sort((a,b)=> b.poms-a.poms || b.pages-a.pages);
+
+  const bookLb = all.map(([uid,s])=>({uid,name:s.name,val:s.totalDaysCompleted||0,frozen:s.frozen}))
+    .filter(x=>x.val>0).sort((a,b)=>b.val-a.val);
+
+  const pomLb = all.map(([uid,s])=>({uid,name:s.name,val:s.totalPomodoros||0,frozen:s.frozen}))
+    .filter(x=>x.val>0).sort((a,b)=>b.val-a.val);
+
+  function rankIcon(i){
+    if(i===0) return '<div class="lb-rank r1">1</div>';
+    if(i===1) return '<div class="lb-rank r2">2</div>';
+    if(i===2) return '<div class="lb-rank r3">3</div>';
+    return `<div class="lb-rank">${i+1}</div>`;
+  }
+  function nameOf(uid,name){
+    const isMe = state.me && state.me.userId===uid;
+    return `<span class="lb-name ${isMe?'me':''}">${escapeHtml(name)}${isMe?' (siz)':''}</span>`;
+  }
+
+  return `
+  <div class="banner">
+    <div class="banner-label">Hozirgi marafon kitobi</div>
+    <div class="banner-title">${escapeHtml(book.title)}</div>
+    <div class="banner-author">${escapeHtml(book.author)}</div>
+    <div class="row">
+      <div class="banner-stamp">📅 Kunlik reyting har kuni 00:00 da yangilanadi</div>
+      <div class="banner-stamp" style="border-color:var(--green);color:var(--green);">🟢 Jonli — barcha natijalar avtomatik yangilanadi</div>
+    </div>
+  </div>
+
+  <div class="lb-grid">
+    <div class="lb-card">
+      <div class="lb-head"><div class="lb-title">🏆 Bugungi reyting</div></div>
+      <div class="lb-sub">Har kuni tunda 00:00 da nolga tenglashadi</div>
+      <ul class="lb-list">
+        ${daily.length? daily.slice(0,10).map((x,i)=>`
+          <li class="lb-row">${rankIcon(i)}${nameOf(x.uid,x.name)}<span class="lb-score">${x.poms}🍅</span></li>
+        `).join('') : '<div class="lb-empty">Bugun hali hech kim faollik koʻrsatmadi.</div>'}
+      </ul>
+    </div>
+
+    <div class="lb-card">
+      <div class="lb-head"><div class="lb-title">📚 Umumiy kitob reytingi</div></div>
+      <div class="lb-sub">Marafon boshlanganidan beri yopilgan kunlar</div>
+      <ul class="lb-list">
+        ${bookLb.length? bookLb.slice(0,10).map((x,i)=>`
+          <li class="lb-row">${rankIcon(i)}${nameOf(x.uid,x.name)}<span class="lb-score">${x.val} kun</span></li>
+        `).join('') : '<div class="lb-empty">Hali hech kim kun yopmagan.</div>'}
+      </ul>
+    </div>
+
+    <div class="lb-card">
+      <div class="lb-head"><div class="lb-title">🍅 Umumiy Pomodoro reytingi</div></div>
+      <div class="lb-sub">Marafon boshlanganidan beri jami seanslar</div>
+      <ul class="lb-list">
+        ${pomLb.length? pomLb.slice(0,10).map((x,i)=>`
+          <li class="lb-row">${rankIcon(i)}${nameOf(x.uid,x.name)}<span class="lb-score">${x.val}</span></li>
+        `).join('') : '<div class="lb-empty">Hali hech kim pomodoro bajarmagan.</div>'}
+      </ul>
+    </div>
+  </div>
+  `;
+}
+
+function renderCabinet(){
+  if(!state.me){
+    return `<div class="card"><div class="card-title">Kabinetga xush kelibsiz</div><div class="card-desc">Davom etish uchun ismingizni kiriting.</div></div>`;
+  }
+  const s = state.stats[state.me.userId] || emptyStats(state.me.name);
+  const today = todayStr();
+  const d = s.daily[today] || emptyDaily();
+  const pagesCount = countTrue(d.pages);
+  const pomsCount = countTrue(d.poms);
+  const frozen = !!s.frozen;
+
+  return `
+  <div class="card">
+    <div class="card-desc">Salom, <span class="name-badge">${escapeHtml(state.me.name)}</span> 👋 Bugun: ${formatDate(today)}</div>
+  </div>
+
+  ${frozen ? `<div class="card"><div class="frozen-flag">⛔ Sizning hisobingiz admin tomonidan bloklangan (qoida buzilishi tufayli). Yangi belgi qoʻya olmaysiz.</div></div>` : ''}
+
+  <div class="card">
+    <div class="card-title">📚 Kitob vazifasi — bugungi 10 bet</div>
+    <div class="card-desc">Har bir oʻqilgan betni bosing. 10-betni bosgach, kun toʻliq yopiladi.</div>
+    <div class="grid10">
+      ${d.pages.map((v,i)=>`<div class="stamp ${v?'page-on':''} ${frozen?'locked':''}" data-kind="page" data-idx="${i}">${v?'✓':i+1}</div>`).join('')}
+    </div>
+    <div class="progress-bar"><div class="progress-fill pages" style="width:${pagesCount*10}%"></div></div>
+    ${d.dayCompleted ? `<div class="done-flag">✅ Bugungi vazifa bajarildi! (+1 kun)</div>` : `<div class="card-desc" style="margin:12px 0 0;">Toʻliq yopish uchun 10-betni ham belgilang (${pagesCount}/10).</div>`}
+  </div>
+
+  <div class="card">
+    <div class="card-title">🍅 17 soatlik Pomodoro chellenj</div>
+    <div class="card-desc">Har bir katakcha = 25 daqiqa mustaqil ish. 25 daqiqa tugagach, keyingi raqamni bosing. (${pomsCount}/40)</div>
+    <div class="grid8">
+      ${d.poms.map((v,i)=>`<div class="stamp ${v?'pom-on':''} ${frozen?'locked':''}" data-kind="pom" data-idx="${i}">${v?'✓':i+1}</div>`).join('')}
+    </div>
+    <div class="progress-bar"><div class="progress-fill poms" style="width:${pomsCount*2.5}%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Sizning umumiy natijangiz</div>
+    <div class="row" style="gap:28px;">
+      <div><div style="font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--gold-soft);">${s.totalDaysCompleted||0}</div><div class="card-desc" style="margin:0;">Yopilgan kunlar</div></div>
+      <div><div style="font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--coral-soft);">${s.totalPomodoros||0}</div><div class="card-desc" style="margin:0;">Jami pomodoro</div></div>
+    </div>
+  </div>
+  `;
+}
+
+function renderAdmin(){
+  if(!state.adminUnlocked){
+    return `
+    <div class="card" style="max-width:380px;margin:0 auto;">
+      <div class="card-title">🔒 Admin panel</div>
+      <div class="card-desc">Kirish uchun parolni kiriting.</div>
+      <input type="password" id="admin-pw" placeholder="Parol" />
+      <div class="row" style="margin-top:14px;">
+        <button class="btn btn-gold" id="admin-login">Kirish</button>
+      </div>
+      ${state.err ? `<div class="card-desc" style="color:var(--red);margin-top:10px;">${escapeHtml(state.err)}</div>` : ''}
+    </div>`;
+  }
+
+  const book = state.bookConfig || DEFAULT_BOOK;
+  const rows = Object.entries(state.stats).sort((a,b)=> (b[1].totalDaysCompleted||0)-(a[1].totalDaysCompleted||0));
+
+  return `
+  <div class="card">
+    <div class="card-title">📖 Marafon kitobini oʻzgartirish</div>
+    <div class="card-desc">Bosh sahifadagi bannerda koʻrinadi.</div>
+    <div class="row" style="margin-bottom:10px;">
+      <input type="text" id="book-title" placeholder="Kitob nomi" value="${escapeAttr(book.title)}" style="flex:1;min-width:180px;" />
+      <input type="text" id="book-author" placeholder="Muallif" value="${escapeAttr(book.author)}" style="flex:1;min-width:180px;" />
+    </div>
+    <button class="btn btn-gold btn-sm" id="save-book">Saqlash</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">👥 Ishtirokchilar (${rows.length})</div>
+    <div class="card-desc">Qoida buzgan ishtirokchini bloklashingiz yoki natijasini nolga tushirishingiz mumkin.</div>
+    <div style="overflow-x:auto;">
+    <table class="admin-table">
+      <thead><tr><th>Ism</th><th>Kunlar</th><th>Pomodoro</th><th>Holat</th><th></th></tr></thead>
+      <tbody>
+        ${rows.length? rows.map(([uid,s])=>`
+          <tr>
+            <td>${escapeHtml(s.name)}</td>
+            <td>${s.totalDaysCompleted||0}</td>
+            <td>${s.totalPomodoros||0}</td>
+            <td>${s.frozen? '<span class="tag frozen">Bloklangan</span>' : '<span class="tag active">Faol</span>'}</td>
+            <td class="row" style="gap:6px;">
+              <button class="btn btn-ghost btn-sm" data-freeze="${uid}">${s.frozen?'Blokdan chiqarish':'Bloklash'}</button>
+              <button class="btn btn-danger btn-sm" data-reset="${uid}">Nolga tushirish</button>
+            </td>
+          </tr>
+        `).join('') : `<tr><td colspan="5" style="color:var(--muted);">Hali ishtirokchi yoʻq.</td></tr>`}
+      </tbody>
+    </table>
+    </div>
+  </div>
+  `;
+}
+
+// ---------------- HELPERS ----------------
+function escapeHtml(s){ return String(s??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s){ return escapeHtml(s); }
+function formatDate(iso){
+  const [y,m,d] = iso.split('-');
+  const months = ['yanvar','fevral','mart','aprel','may','iyun','iyul','avgust','sentabr','oktabr','noyabr','dekabr'];
+  return `${parseInt(d)}-${months[parseInt(m)-1]}, ${y}`;
+}
+
+function showNamePrompt(){
+  if(document.getElementById('name-overlay')) return;
+  const wrap = document.createElement('div');
+  wrap.id = 'name-overlay';
+  wrap.className = 'overlay';
+  wrap.innerHTML = `
+    <div class="modal">
+      <h3>Marafonga xush kelibsiz 📖</h3>
+      <p>Reytingda koʻrinish uchun ismingizni kiriting.</p>
+      <input type="text" id="name-input" placeholder="Ismingiz" maxlength="30" />
+      <div class="row" style="margin-top:16px;justify-content:flex-end;">
+        <button class="btn btn-gold" id="name-submit">Boshlash</button>
+      </div>
+    </div>`;
+  document.body.appendChild(wrap);
+  document.getElementById('name-submit').onclick = async ()=>{
+    const val = document.getElementById('name-input').value.trim();
+    if(!val) return;
+    const userId = (crypto.randomUUID ? crypto.randomUUID() : 'u'+Date.now()+Math.random().toString(16).slice(2));
+    const me = { userId, name: val };
+    saveMe(me);
+    state.me = me;
+    const fresh = emptyStats(val);
+    state.stats[userId] = fresh;
+    wrap.remove();
+    render();
+    await saveStats(userId, fresh);
+  };
+  document.getElementById('name-input').addEventListener('keydown', e=>{
+    if(e.key==='Enter') document.getElementById('name-submit').click();
+  });
+}
+
+async function toggleBox(kind, idx){
+  if(!state.me) return;
+  let s = state.stats[state.me.userId];
+  if(!s) s = emptyStats(state.me.name);
+  if(s.frozen) return;
+  const today = todayStr();
+  if(!s.daily[today]) s.daily[today] = emptyDaily();
+  const d = s.daily[today];
+
+  if(kind==='page'){
+    const wasOn = d.pages[idx];
+    if(!wasOn){
+      for(let i=0;i<=idx;i++) d.pages[i] = true;
+    } else {
+      d.pages[idx] = false;
+    }
+    const nowComplete = d.pages.every(Boolean);
+    if(nowComplete && !d.dayCompleted){
+      d.dayCompleted = true;
+      s.totalDaysCompleted = (s.totalDaysCompleted||0) + 1;
+    } else if(!nowComplete && d.dayCompleted){
+      d.dayCompleted = false;
+      s.totalDaysCompleted = Math.max(0,(s.totalDaysCompleted||0) - 1);
+    }
+  } else {
+    const wasOn = d.poms[idx];
+    d.poms[idx] = !wasOn;
+    s.totalPomodoros = Math.max(0, (s.totalPomodoros||0) + (wasOn ? -1 : 1));
+  }
+
+  s.name = state.me.name;
+  state.stats[state.me.userId] = s;
+  render();
+  await saveStats(state.me.userId, s);
+}
+
+function attachHandlers(){
+  document.querySelectorAll('.tab-btn').forEach(b=>{
+    b.onclick = ()=>{ state.tab = b.dataset.tab; render(); };
+  });
+  const adminLink = document.getElementById('admin-link');
+  if(adminLink) adminLink.onclick = (e)=>{ e.preventDefault(); state.tab='admin'; render(); };
+
+  document.querySelectorAll('.stamp').forEach(elm=>{
+    elm.onclick = ()=>{
+      if(elm.classList.contains('locked')) return;
+      toggleBox(elm.dataset.kind, parseInt(elm.dataset.idx));
+    };
+  });
+
+  const adminLogin = document.getElementById('admin-login');
+  if(adminLogin){
+    adminLogin.onclick = async ()=>{
+      const pw = document.getElementById('admin-pw').value;
+      const real = await ensureAdminPassword();
+      if(pw === real){
+        state.adminUnlocked = true;
+        state.err = null;
+      } else {
+        state.err = "Parol notoʻgʻri.";
+      }
+      render();
+    };
+  }
+
+  const saveBook = document.getElementById('save-book');
+  if(saveBook){
+    saveBook.onclick = async ()=>{
+      const title = document.getElementById('book-title').value.trim() || DEFAULT_BOOK.title;
+      const author = document.getElementById('book-author').value.trim() || DEFAULT_BOOK.author;
+      const cfg = {title, author};
+      state.bookConfig = cfg;
+      saveBook.textContent = 'Saqlandi ✓';
+      await setDoc(doc(db,'config','book'), cfg);
+      setTimeout(()=>{ saveBook.textContent = 'Saqlash'; }, 1500);
+    };
+  }
+
+  document.querySelectorAll('[data-freeze]').forEach(btn=>{
+    btn.onclick = async ()=>{
+      const uid = btn.dataset.freeze;
+      const s = state.stats[uid];
+      if(!s) return;
+      s.frozen = !s.frozen;
+      render();
+      await saveStats(uid, s);
+    };
+  });
+  document.querySelectorAll('[data-reset]').forEach(btn=>{
+    btn.onclick = async ()=>{
+      const uid = btn.dataset.reset;
+      const s = state.stats[uid];
+      if(!s) return;
+      if(!confirm(`${s.name} ning natijasini nolga tushirishni tasdiqlaysizmi?`)) return;
+      const fresh = emptyStats(s.name);
+      fresh.frozen = s.frozen;
+      state.stats[uid] = fresh;
+      render();
+      await saveStats(uid, fresh);
+    };
+  });
+}
+
+// ---------------- INIT + REAL-TIME LISTENERS ----------------
+async function init(){
+  try{
+    state.me = loadMe();
+    state.bookConfig = await ensureBookConfig();
+    await ensureAdminPassword();
+    if(state.me) await ensureMyStatsDoc();
+  }catch(e){
+    console.error('init error', e);
+  }
+  state.loading = false;
+  render();
+
+  // Live: whole stats collection -> updates all leaderboards & cabinet instantly
+  onSnapshot(collection(db, 'stats'), (snapshot)=>{
+    const out = {};
+    snapshot.forEach(docSnap=>{ out[docSnap.id] = docSnap.data(); });
+    state.stats = out;
+    render();
+  }, (err)=>console.error('stats listener error', err));
+
+  // Live: book banner
+  onSnapshot(doc(db, 'config', 'book'), (snap)=>{
+    if(snap.exists()){
+      state.bookConfig = snap.data();
+      render();
+    }
+  }, (err)=>console.error('book listener error', err));
+}
+init();
+</script>
+</body>
+</html>
